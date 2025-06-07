@@ -105,7 +105,7 @@ print(lines)
 with open('raw_data.bin', 'wb') as fh:
     fh.write(b'Hello world!')
 """
-
+"""
 s = "Hola!"
 
 utf8 = s.encode()
@@ -119,3 +119,10 @@ print(f"CP-1251: {cp1251}")
 
 s_from_utf16 = utf16.decode("utf-16")
 print(s_from_utf16 == s)
+"""
+
+import greetings
+
+message = greetings.great("Holahup")
+print(message)
+
