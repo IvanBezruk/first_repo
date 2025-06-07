@@ -121,8 +121,8 @@ s_from_utf16 = utf16.decode("utf-16")
 print(s_from_utf16 == s)
 """
 
-import greetings
+import greeting
 
-message = greetings.great("Holahup")
+message = greeting.greet("Holahup")
 print(message)
 
