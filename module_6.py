@@ -216,6 +216,7 @@ print(person1)
 print(person2)
 """
 
+"""
 from enum import Enum
 
 class Day(Enum):
@@ -270,3 +271,63 @@ order2.update_status(OrderStatus.SHIPPED)
 
 order1.display_status()
 order2.display_status()
+"""
+
+class Owner:
+    def __init__(self, name: str, phone: str):
+        self.name = name
+        self.phone = name
+
+    def info(self):
+        return F"{self.name}: {self.phone}"
+
+class Cat:
+    def __init__(self, nickname: str, age: int, owner: Owner):
+        self.nickname = nickname
+        self.age = age
+        self.owner = owner
+
+    def get_info(self):
+        return f"Cat Name: {self.nickname}, Age: {self.age}"
+    
+    def sound(self):
+        return "Meow"
+    
+owner = Owner("Boris", "+380503002010")
+cat = Cat("Simon", 4, owner)
+
+print(cat.owner.info())
+print(cat.get_info())
+
+class Task:
+    def __init__(self, name: str, description: str):
+        self.name = name
+        self.description = description
+
+    def display_info(self):
+        print(f"Task: {self.name}, Description: {self.description}")
+
+class Project:
+    def __init__(self, name: str):
+        self.name = name
+        self.tasks: list[Task] = []
+    
+    def add_task(self, name: str, description: str):
+        self.tasks.append(Task(name, description))
+
+    def remove_task(self, name: str):
+        self.tasks = [task for task in self.tasks if task.name != name]
+
+    def display_project_info(self):
+        print(f"Projects: {self.name}")
+        for task in self.tasks:
+            task.display_info()
+
+# Usage
+my_project = Project("Веб-розробка")
+my_project.add_task("Дизайн інтерфейсу", "Створити макет головної сторінки.")
+my_project.add_task("Розробка API", "Реалізувати ендпоінти для користувачів.")
+
+my_project.display_project_info()
+my_project.remove_task("Розробка API")
+my_project.display_project_info()
