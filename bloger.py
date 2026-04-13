@@ -602,10 +602,10 @@ class Elf:
 # Ork is alive Ork (level: 2, hp: 140)
 # Elf is dead Elf (level: 1, hp: -4)
 
-
+"""
 class Character:
 
-    max_level = 3
+    max_level = 3  
 
     def __init__(self, *, level: int) -> None:
         self.level = level
@@ -641,6 +641,10 @@ class Character:
     def health_points_percent(self):
         return 100 * self.health_points /self.max_health_points
     
+    def level_up(self):
+        if self.level < self.max_level:
+            self.level +=1
+            self.health_points +=int(self.max_health_points /2)
 
     def __str__(self) -> str:
         return f"{self.character_name} (level: {self.level}, hp: {self.health_points})"
@@ -684,35 +688,22 @@ class Elf(Character):
 #elf = Elf(level =2)
 #elf.attack()
 
-""" This is aprvious code when we just fough without increase in level
 def fight(*, character_1: Character, character_2: Character) -> None:
+    print("Fight started", character_1, character_2)
     while character_1.is_alive() and character_2.is_alive():
         character_1.attack(target=character_2)
+        print(character_2)
         if character_2.is_alive():
             character_2.attack(target=character_1)
-"""
+            print(character_1)
 
-def fight(*, character_1: Character, character_2: Character) -> None:
-    while character_1.is_alive() and character_2.is_alive():
-        character_1.attack(target=character_2)
+    if character_1.is_alive():
+        character_1.level_up()
+    else:
+        character_2.level_up()
 
-        if not character_2.is_alive():
-            if character_1.level < max_level:
-                character_1.level += 1
-                character_1.health_points +=character_1.max_health_points // 2
-            print(f"{character_1} killed {character_2} and increased to level {character_1.level}")
-            break
-
-        character_2.attack(target=character_1)
-        if not character_1.is_alive():
-            if character_2.level < max_level:
-                character_2.level += 1
-                character_2.health_points +=character_2.max_health_points // 2
-            print(f"{character_2} killed {character_1} and increased to level {character_2.level}")
-            break  
-
-    #print(f"Character 1: {character_1}, is_alive: {character_1.is_alive()}") #Shows if Character 1 is alive
-    #print(f"Character 2: {character_2}, is_alive: {character_2.is_alive()}") #Shows if Character 2 is alive
+    print(f"Character 1: {character_1}, is_alive: {character_1.is_alive()}") #Shows if Character 1 is alive
+    print(f"Character 2: {character_2}, is_alive: {character_2.is_alive()}") #Shows if Character 2 is alive
 
 ork = Ork(level=1)
 elf = Elf(level=1)
@@ -722,4 +713,54 @@ fight(character_1 = ork, character_2 = elf)
 #Polymorphism - the ability to redefine a language construct for each class
 #Encapsulation - restricting access to the components of an object
 #Inheritance - a child class contains the attributes and methods of the inherited class
+"""
 
+"""
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Something is happening before the function is called.")
+        result = func(*args, **kwargs)
+        print("Something is happening after the function is called.")
+        return result
+    return wrapper
+
+"""
+"""
+@my_decorator#decorator is equivalent to that part #my_decorator(say_hello)()
+def say_hello(*, name: str) -> None:
+    print(f"Hello, {name}!")
+
+#my_decorator(say_hello)()
+say_hello(name="Ivan")
+
+
+@my_decorator
+def add_numbers(*, a: int, b: int) -> int:
+    print("Addining numbers...")
+    return a + b
+
+result = add_numbers(a=1, b =2)
+"""
+
+#Telegram bot
+
+from telebot import TeleBot
+
+TOKEN = "8718373911:AAGq3FtFwMOAgPIjtbT8Dv0MWcVylnWGqfg"
+
+bot = TeleBot(TOKEN)
+
+
+
+@bot.message_handler(commands=["start", "help"])
+def send_welcome(message):
+    print(message)
+    bot.reply_to(message, text="Howdy, how are you doing?")
+
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    print(message)
+    bot.reply_to(message, message.text)
+
+#Start server
+bot.infinity_polling()
