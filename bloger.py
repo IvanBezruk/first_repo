@@ -603,8 +603,10 @@ class Elf:
 # Elf is dead Elf (level: 1, hp: -4)
 
 
-
 class Character:
+
+    max_level = 3
+
     def __init__(self, *, level: int) -> None:
         self.level = level
         self.health_points = self.base_health_points * level
@@ -682,14 +684,35 @@ class Elf(Character):
 #elf = Elf(level =2)
 #elf.attack()
 
+""" This is aprvious code when we just fough without increase in level
 def fight(*, character_1: Character, character_2: Character) -> None:
     while character_1.is_alive() and character_2.is_alive():
         character_1.attack(target=character_2)
         if character_2.is_alive():
             character_2.attack(target=character_1)
-    
-    print(f"Character 1: {character_1}, is_alive: {character_1.is_alive()}")
-    print(f"Character 2: {character_2}, is_alive: {character_2.is_alive()}")
+"""
+
+def fight(*, character_1: Character, character_2: Character) -> None:
+    while character_1.is_alive() and character_2.is_alive():
+        character_1.attack(target=character_2)
+
+        if not character_2.is_alive():
+            if character_1.level < max_level:
+                character_1.level += 1
+                character_1.health_points +=character_1.max_health_points // 2
+            print(f"{character_1} killed {character_2} and increased to level {character_1.level}")
+            break
+
+        character_2.attack(target=character_1)
+        if not character_1.is_alive():
+            if character_2.level < max_level:
+                character_2.level += 1
+                character_2.health_points +=character_2.max_health_points // 2
+            print(f"{character_2} killed {character_1} and increased to level {character_2.level}")
+            break  
+
+    #print(f"Character 1: {character_1}, is_alive: {character_1.is_alive()}") #Shows if Character 1 is alive
+    #print(f"Character 2: {character_2}, is_alive: {character_2.is_alive()}") #Shows if Character 2 is alive
 
 ork = Ork(level=1)
 elf = Elf(level=1)
